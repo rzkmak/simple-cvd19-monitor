@@ -62,3 +62,4 @@ broadcast.on('message', function(channel, message) {
 broadcast.subscribe('covidxix:update');
 
 bot.launch();
+console.log("starting bot application")
