@@ -1,0 +1,15 @@
+{
+  "name": "cvdxixid",
+  "version": "1.0.0",
+  "description": "Covid 19 Indonesian Tracker",
+  "main": "index.js",
+  "author": "Rizki Maulana Akbar <rizkimaulanaakbar@outlook.com>",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "dotenv": "^8.2.0",
+    "node-cron": "^2.0.3",
+    "redis": "^3.0.2",
+    "telegraf": "^3.36.0"
+  }
+}
