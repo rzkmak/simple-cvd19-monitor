@@ -17,6 +17,7 @@ const subscribe = ctx => {
     if (isSubscribe) return;
     client.hsetnx('covidxix', id, STATUS_ACTIVE, (err, resp) => {
         if (err) console.log(err);
+        client.del('covidxix:content');
         ctx.reply('Subscribe success');
     })
 }
