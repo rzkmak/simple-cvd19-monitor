@@ -24,9 +24,7 @@ const subscribe = ctx => {
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.start((ctx) => ctx.reply('Hi, Nice to meet you..'));
-bot.command('subscribe', ctx => {
-    subscribe(ctx);
-});
+bot.command('subscribe', subscribe);
 
 const getContentApi = async () => {
     let response = await axios.get(process.env.COVID_COUNTER_URL);
@@ -51,12 +49,18 @@ cron.schedule('* * * * *', () => {
 });
 
 broadcast.on('message', function(channel, message) {
-    console.log(`broadcasting event from channel ${channel} with message ${message}`)
+    console.log(`broadcasting event from channel ${channel} with message ${message}`);
+    let content = Buffer.from(message, 'binary').toString('base64');
     client.hkeys('covidxix', (err, subscribers) => {
         if (!subscribers) return;
         if (subscribers.length <= 0) return;
         subscribers.forEach(subscriber => {
-            bot.telegram.sendMessage(subscriber, message);
+            client.get(`covidxix:content:${subscriber}`, (err, res) => {
+                if (err) return;
+                if (res == content) return;
+                bot.telegram.sendMessage(subscriber, message);
+                client.set(`covidxix:content:${subscriber}`, content);
+            });
         });
     });
 });
