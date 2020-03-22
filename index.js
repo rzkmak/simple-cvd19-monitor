@@ -31,6 +31,7 @@ bot.command('subscribe', ctx => {
 const getContentApi = async () => {
     let response = await axios.get(process.env.COVID_COUNTER_URL);
     let summary = response.data;
+    delete summary.metadata;
     let content = Buffer.from(JSON.stringify(summary), 'binary').toString('base64');
     client.get('covidxix:content', (err, res) => {
         if (err) return;
